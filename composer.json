@@ -1,0 +1,21 @@
+{
+    "name": "vendor_name/projeto",
+    "description": "description",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+      {
+        "name": "junior",
+        "email": "morganti.artur@example.com"
+      }
+    ],
+    "require": {
+      
+    },
+    "autoload": {
+      "psr-4": {
+        "Source\\": "source/",
+        "App\\": "app/"
+      }
+    }
+  }
