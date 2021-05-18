@@ -20,6 +20,7 @@ img{
 
 body{
     font-family: 'Arial', cursive;
+    font-size: 20px;
 }
 
 .header {
@@ -32,7 +33,7 @@ body{
 .sidenav {
     grid-area: sidenav;
     padding: 10px;
-    background-color: #dee6ff;
+    background-color: #ccc;
     margin: 5px;
 }
 
@@ -46,7 +47,7 @@ body{
 
 .main{
     display: grid;
-    grid-template-columns: minmax(160px, 1fr) 3fr 300px;
+    grid-template-columns: minmax(160px, 300px) 3fr 300px;
     grid-template-areas:
         "header header header"
         "sidenav main_content main_content"
@@ -115,9 +116,12 @@ body{
     text-align:  center;
   }
 
-  #lista li {
-    border-bottom: 1px solid #888;
-    margin-bottom: 3px;
+  #lista {
+    width: 100%;
+  }
+
+  .list_td {   
+    border-bottom: 2px solid #888;
   }
 
   .btn_cursos {
@@ -131,4 +135,42 @@ body{
 
   #lista tr:hover{
     color: cornsilk;
+  }
+
+  .titulo_modal {
+    margin-bottom: 20px;
+  }
+
+  .div_modal {
+    display: inline-block;
+  }
+
+  .div_modal label {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  #inputs_provas {
+    display: inline;
+    padding: 15px;
+    margin: 10px;
+    
+  }
+
+  .cabecalho_provas{
+    background-color: white;
+    margin: 15px;
+    padding: 20px;
+    box-shadow: 2px 2px 2px 1px #ccc;
+  }
+
+  #box_prova {
+    background-color: white;
+    margin: 15px;
+    padding: 20px;
+    box-shadow: 2px 2px 2px 1px #ccc;
+  }
+
+  .cabecalho_provas select {
+    font-size: 25px;
   }

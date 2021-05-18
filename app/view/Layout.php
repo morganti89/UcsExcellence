@@ -5,19 +5,17 @@
     <meta name="description" content="<?php echo $this->getDescription(); ?>">
     <title><?php echo $this->title?></title>    
     <link rel="stylesheet" href=<?php echo DIR_CSS."/style.css" ?>>
-    
 </head>
 <body>
 <div class="site">
     <header class="header">
         <?php echo $this->addHeader(); ?>
-    </header>
-
+    </header>    
     <div class="main">
         <div class="sidenav">
             <nav>
                 <ul>
-                    <li><a href="dashboard">Dasboard</a></li>
+                    <li><i class="fa fa-dashboard" aria-hidden="true"></i><a href="dashboard">Dasboard</a></li>
                     <li><a href="cursos">Cursos</a></li>
                     <li><a href="provas">Provas</a></li>
                     <li><a href="cadastros">Cadastros</a></li>

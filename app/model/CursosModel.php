@@ -16,4 +16,13 @@ class CursosModel extends Persistent{
         $result = $statment->fetchall(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function buscaCursoPorId($id) {
+        $conn = $this->conn->getConn();
+        $sql = "SELECT * FROM cursos WHERE id={$id} ORDER BY nome ASC";
+        $statment = $conn->prepare($sql);
+        $statment->execute();
+        $result = $statment->fetchall(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }

@@ -6,7 +6,6 @@ class Router {
     public function getCurrentRoute(){
         $current_route = Helpers::parseURL();
         $controller = $current_route[0];
-
         $rr = new RouterRegister();
         $routerList = $rr->getRoutes();
 

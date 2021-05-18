@@ -33,7 +33,13 @@ class CursosController extends RenderLayout{
         $this->persistent->saveData();
     }
 
-    public function carregaLista(){
+    public function fetchById(){
+        $model = new CursosModel();
+        $fetchData = $model->buscaCursoPorId($_POST['id']);
+        echo(json_encode($fetchData));
+    }
+
+    public function fetchList(){
         $model = new CursosModel();
         $fetchData = $model->listaCursos();
         echo(json_encode($fetchData));

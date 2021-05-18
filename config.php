@@ -13,6 +13,7 @@ if(substr($_SERVER['DOCUMENT_ROOT'], -1) == '/') {
 define('DIR_IMG',DIR_PAGE."public/img");
 define('DIR_CSS',DIR_PAGE."public/css");
 define('DIR_JS',DIR_PAGE."public/js");
+define('DIR_LIBS',DIR_PAGE."public/libs");
 
 define('HOST', "localhost");
 define('DB', "sistema");

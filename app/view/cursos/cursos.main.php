@@ -8,7 +8,7 @@
     </table>
 </div>
 
-<div id="cursos_modal" class="modal">
+<div id="cursos_modal_save" class="modal">
     <div class="modal_content">
         <span class="close">&times;</span>
         <h3>Cadastrar novo curso</h3>
@@ -30,3 +30,8 @@
     </div>
 </div>
 
+<div id="curso_modal" class="modal">
+    <div class="modal_content">
+        <span class="close">&times;</span>
+    </div>
+</div>
