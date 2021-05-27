@@ -174,3 +174,7 @@ body{
   .cabecalho_provas select {
     font-size: 25px;
   }
+
+  .file_selector {
+    visibility: hidden;
+  }

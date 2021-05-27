@@ -16,10 +16,9 @@ class CursosController extends RenderLayout{
         $this->setTitle("Cursos");
         $this->setDir('cursos');
         $this->persistent = new Persistent();
-        $this->persistent->setTable('cursos');
-        $this->persistent->setColumns('nome', 'area');
+        $this->persistent->setTable('curriculo');
+        $this->persistent->setColumns('codigo', 'disciplina', 'componente_enade', 'componente_dcn', 'carga_horaria', 'curso');
     }
-
     public function render() {
         $this->renderLayout();
     }
@@ -33,9 +32,35 @@ class CursosController extends RenderLayout{
         $this->persistent->saveData();
     }
 
+    public function saveSpreadsheet() {
+
+        $rows = $_POST['data'];
+        $model = new CursosModel();        
+        foreach ($rows as $key => $row){
+            $disciplina = $model->buscarPorCodigoEDisciplina($row['Codigo'], $row['Curso']);            
+            if(!empty($disciplina)){
+               continue;
+            }
+            $this->dados = [                    
+                'codigo' => $row['Codigo'],
+                'disciplina' => $row['Disciplina'],
+                'carga_horaria' => (int)$row['CH'],
+                'curso' => $row['Curso'],
+            ];
+            $this->persistent->setFields($this->dados);
+            $this->persistent->saveData();
+        } 
+    }
+
     public function fetchById(){
         $model = new CursosModel();
         $fetchData = $model->buscaCursoPorId($_POST['id']);
+        echo(json_encode($fetchData));
+    }
+
+    public function fetchByName(){
+        $model = new CursosModel();
+        $fetchData = $model->buscaCursoPorId($_POST['name']);
         echo(json_encode($fetchData));
     }
 

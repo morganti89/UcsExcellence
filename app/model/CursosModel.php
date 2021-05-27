@@ -9,8 +9,7 @@ class CursosModel extends Persistent{
 
     public function listaCursos() {
         $conn = $this->conn->getConn();
-        $sql = "SELECT * FROM cursos ORDER BY nome ASC";
-
+        $sql = "SELECT DISTINCT `curso` FROM curriculo ORDER BY curso";
         $statment = $conn->prepare($sql);
         $statment->execute();
         $result = $statment->fetchall(PDO::FETCH_ASSOC);
@@ -19,7 +18,16 @@ class CursosModel extends Persistent{
 
     public function buscaCursoPorId($id) {
         $conn = $this->conn->getConn();
-        $sql = "SELECT * FROM cursos WHERE id={$id} ORDER BY nome ASC";
+        $sql = "SELECT * FROM curriculo WHERE id={$id} ORDER BY nome ASC";
+        $statment = $conn->prepare($sql);
+        $statment->execute();
+        $result = $statment->fetchall(PDO::FETCH_ASSOC);
+        return $result;
+    }
+ 
+    public function buscarPorCodigoEDisciplina($code, $curso){
+        $conn = $this->conn->getConn();
+        $sql = "SELECT * FROM curriculo WHERE codigo='{$code}' AND curso ='{$curso}'";
         $statment = $conn->prepare($sql);
         $statment->execute();
         $result = $statment->fetchall(PDO::FETCH_ASSOC);

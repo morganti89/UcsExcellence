@@ -1,14 +1,11 @@
 <div class="main_content">
-    <div id="btn_curso">
+    <div id="btn_enade">
         <button id="btn_cursos_modal" class="btn_cursos">NOVO CURSO</button>
         <button class="btn_cursos browser_file">IMPORTAR CSV</button>
         <form>            
             <input type="file" class="file_selector" id="fileUpload">
         </form>
     </div>
-    <table id="lista">
-        <tbody></tbody>
-    </table>
 </div>
 
 <div id="cursos_modal_save" class="modal">

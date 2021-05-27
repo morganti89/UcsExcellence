@@ -16,7 +16,9 @@ class RouterRegister {
             'dashboard' => 'dashboard',
             'cursos' => 'cursos',
             'provas' => 'provas',
-            'cadastros' => 'cadastros'
+            'cadastros' => 'cadastros',
+            'enade' => 'enade',
+            'dcn' => 'dcn'
         ];
     }
 

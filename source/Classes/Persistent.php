@@ -38,9 +38,13 @@ class Persistent {
         },$keys);
         $alias = implode(',', $keysValues);
 
-
-        $sql = "INSERT INTO {$this->table} ({$stmKeys}) VALUES ({$alias})";
-        $id = $conn->prepare($sql)->execute($this->fields);
+        try {
+            $sql = "INSERT INTO {$this->table} ({$stmKeys}) VALUES ({$alias})";
+            $id = $conn->prepare($sql)->execute($this->fields);
+        } catch (\Throwable $th) {
+           
+        }
+       
         return $id;
     }
 }

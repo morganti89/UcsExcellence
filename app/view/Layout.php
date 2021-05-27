@@ -19,6 +19,8 @@
                     <li><a href="cursos">Cursos</a></li>
                     <li><a href="provas">Provas</a></li>
                     <li><a href="cadastros">Cadastros</a></li>
+                    <li><a href="enade">Enade</a></li>
+                    <li><a href="dcn">DCN</a></li>
                 </ul>
             </nav>
         </div>
