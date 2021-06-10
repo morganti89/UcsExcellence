@@ -39,12 +39,13 @@ function processRespose(data) {
   res = JSON.parse(data);
   $.each(res, function(){    
     $("#lista tbody").append(
-        $('<tr>', {'id-curso':this.id}).append(
+        $('<tr>', {'nome':this.curso}).append(
           $('<td>', {'class':'list_td', 'text':this.curso})
         )
       );
   });
 }
+
 //construir o modal a partir da resposta
 function buildModal(data) {
   $(".curso_modal").append('<div>',{'class': 'modal_content'});
@@ -95,8 +96,46 @@ function buildModal(data) {
       $('<option>', {'value': value, 'text': value},'</option>')
     );
   });
+}
 
+/**
+ * Returns an array with arrays of the given size.
+ *
+ * @param myArray {Array} Array to split
+ * @param chunkSize {Integer} Size of every group
+ */
+ function chunkRows(myArray, chunk_size){
+  var results = [];
   
+  while (myArray.length) {
+      results.push(myArray.splice(0, chunk_size));
+  }
+  
+  return results;
+}
+
+function createPaginationButtons(json){
+  let totalPages = Math.ceil(json/20);
+  for (let index = 1; index <= totalPages; index++) {
+    $(".pages").append(
+      $('<div>', {'class':'btn_page page_div'}).append(
+        $('<p>', {'text': index}),
+      )
+    )
+  }
+}
+
+function makePagination(page) {
+  $('#lista tbody tr').remove();
+  $.ajax({
+    url: "cursos/fetchListPage",
+    method: "POST",
+    data:{'page': page},
+    datatype: "json",
+    success : function (json) {
+      processRespose(json);
+    }
+  });
 }
 
 //////////////////////////////////////////
@@ -104,14 +143,16 @@ function buildModal(data) {
 //////////////////////////////////////////
 //busca lista de cursos
 $(document).ready(function() {
+  makePagination(1); //primeira página
   $.ajax({
-    url: "cursos/fetchList",
-    method: "GET",
+    url: "cursos/getCount",
     datatype: "json",
-    success : function (json) {
-      processRespose(json);
+    success: function(json) {
+      createPaginationButtons(json);
     }
   })
+
+  
 });
 
 //chamar o controller para gravar os dados
@@ -131,12 +172,12 @@ $("#gravar_curso").on("click",function(){
 });
 
 $(document).on('click', '#lista tbody tr', function(e){
-  var id = $(this).attr('id-curso');  
+  var nome = $(this).attr('nome');
   $.ajax({
-      url: "cursos/fetchById",
+      url: "cursos/fetchByName",
       method: "POST",
       context: document.body,
-      data: {'id': id},
+      data: {'nome': nome},
       success : function (e) {
         buildModal(JSON.parse(e));
       }
@@ -177,18 +218,11 @@ $('input[type="file"]').change(function(event){
   
 });
 
-/**
- * Returns an array with arrays of the given size.
- *
- * @param myArray {Array} Array to split
- * @param chunkSize {Integer} Size of every group
- */
-function chunkRows(myArray, chunk_size){
-  var results = [];
-  
-  while (myArray.length) {
-      results.push(myArray.splice(0, chunk_size));
+
+$('.pages').on('click', function(e){
+  var pageNumber = Number.parseInt(e.target.innerHTML);
+  if(pageNumber){
+    let page = e.target.innerHTML;
+    makePagination(page);
   }
-  
-  return results;
-}
+});

@@ -10,11 +10,16 @@ class CursosController extends RenderLayout{
 
     private $dados = [];
     private $persistent = null;
+    private $listCurses = [];
+    private $curseCount;
+    private $model = null;
+
     public $hasMethod = false;
 
     public function __construct(){
         $this->setTitle("Cursos");
         $this->setDir('cursos');
+        $this->model = new CursosModel(); 
         $this->persistent = new Persistent();
         $this->persistent->setTable('curriculo');
         $this->persistent->setColumns('codigo', 'disciplina', 'componente_enade', 'componente_dcn', 'carga_horaria', 'curso');
@@ -35,9 +40,9 @@ class CursosController extends RenderLayout{
     public function saveSpreadsheet() {
 
         $rows = $_POST['data'];
-        $model = new CursosModel();        
+               
         foreach ($rows as $key => $row){
-            $disciplina = $model->buscarPorCodigoEDisciplina($row['Codigo'], $row['Curso']);            
+            $disciplina = $this->model->buscarPorCodigoEDisciplina($row['Codigo'], $row['Curso']);            
             if(!empty($disciplina)){
                continue;
             }
@@ -52,21 +57,30 @@ class CursosController extends RenderLayout{
         } 
     }
 
-    public function fetchById(){
-        $model = new CursosModel();
-        $fetchData = $model->buscaCursoPorId($_POST['id']);
+    public function fetchById(){        
+        $fetchData = $this->model->buscaCursoPorId($_POST['id']);
         echo(json_encode($fetchData));
     }
 
-    public function fetchByName(){
-        $model = new CursosModel();
-        $fetchData = $model->buscaCursoPorId($_POST['name']);
+    public function fetchByName(){        
+        $fetchData = $this->model->buscaPorNome($_POST['nome']);
         echo(json_encode($fetchData));
     }
 
-    public function fetchList(){
-        $model = new CursosModel();
-        $fetchData = $model->listaCursos();
-        echo(json_encode($fetchData));
+    public function fetchListPage(){
+
+        if(empty($listCurses)) {            
+            $this->listCurses = $this->model->listaCursos();
+        }
+        $page = $_POST['page'] - 1;
+        $response = array_chunk($this->listCurses, 20);
+        echo(json_encode($response[$page]));
+    }
+
+    public function getCount(){   
+        if(empty($listCurses)) {            
+            $this->listCurses = $this->model->listaCursos();
+        }
+        echo count($this->listCurses);
     }
 }

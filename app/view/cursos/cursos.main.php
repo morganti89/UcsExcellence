@@ -1,7 +1,7 @@
 <div class="main_content">
-    <div id="btn_curso">
-        <button id="btn_cursos_modal" class="btn_cursos">NOVO CURSO</button>
-        <button class="btn_cursos browser_file">IMPORTAR CSV</button>
+    <div>
+        <button id="btn_cursos_modal" class="btn_normal">NOVO CURSO</button>
+        <button class="btn_normal browser_file">IMPORTAR CSV</button>
         <form>            
             <input type="file" class="file_selector" id="fileUpload">
         </form>
@@ -9,6 +9,9 @@
     <table id="lista">
         <tbody></tbody>
     </table>
+    <div class="pagination">
+        <div class="pages"></div>
+    </div>
 </div>
 
 <div id="cursos_modal_save" class="modal">

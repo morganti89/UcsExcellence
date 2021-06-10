@@ -124,7 +124,7 @@ body{
     border-bottom: 2px solid #888;
   }
 
-  .btn_cursos {
+  .btn_normal {
     padding: 6px;  
     border-color: #3498db;
     color: #fff;
@@ -177,4 +177,24 @@ body{
 
   .file_selector {
     visibility: hidden;
+  }
+
+  .pages {
+    display: flex;
+    margin-left: 350px;
+    text-decoration: none;
+  }
+
+  .btn_page{
+    padding: 5px;
+    border-color: #3498db;
+    color: #fff;
+    box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
+    margin: 10px 2px;
+  }
+
+  .pages div:hover{
+    border-color: #3498db;
+    color: #3498db;
+    box-shadow: 0 0 40px 40px #ddd inset, 0 0 0 0 #ddd;    
   }
