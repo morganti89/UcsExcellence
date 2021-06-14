@@ -198,3 +198,7 @@ body{
     color: #3498db;
     box-shadow: 0 0 40px 40px #ddd inset, 0 0 0 0 #ddd;    
   }
+
+  .cadastros {
+    padding: 10px;
+  }

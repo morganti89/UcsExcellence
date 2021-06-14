@@ -3,7 +3,7 @@
 namespace app\model;
 use PDO;
 
-use Source\Classes\Persistent;
+use Source\classes\Persistent;
 
 class CursosModel extends Persistent{
 

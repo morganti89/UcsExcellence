@@ -1,6 +1,6 @@
 <?php
 
-namespace source\Classes;
+namespace source\classes;
 
 class RouterRegister {
 

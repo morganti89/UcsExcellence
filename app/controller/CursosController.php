@@ -2,8 +2,8 @@
 
 namespace app\controller;
 
-use Source\Classes\RenderLayout;
-use Source\Classes\Persistent;
+use Source\classes\RenderLayout;
+use Source\classes\Persistent;
 use App\model\CursosModel;
 
 class CursosController extends RenderLayout{

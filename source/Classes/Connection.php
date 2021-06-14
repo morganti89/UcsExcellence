@@ -1,6 +1,6 @@
 <?php
 
-namespace Source\Classes;
+namespace Source\classes;
 use PDO;
 
 class Connection {

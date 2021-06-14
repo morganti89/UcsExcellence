@@ -1,7 +1,7 @@
 <?php
 
-namespace Source\Classes;
-use \Source\Classes\Connection;
+namespace Source\classes;
+use \Source\classes\Connection;
 
 class Persistent {
     private $table;

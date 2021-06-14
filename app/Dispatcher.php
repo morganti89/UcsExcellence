@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Source\Classes\Helpers;
-use Source\Classes\Router;
+use Source\classes\Helpers;
+use Source\classes\Router;
 
 class Dispatcher extends Router{
 

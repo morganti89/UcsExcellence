@@ -2,7 +2,7 @@
 
 namespace app\controller;
 
-use Source\Classes\RenderLayout;
+use Source\classes\RenderLayout;
 
 class DashboardController extends RenderLayout{
 
