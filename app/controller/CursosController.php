@@ -21,8 +21,8 @@ class CursosController extends RenderLayout{
         $this->setDir('cursos');
         $this->model = new CursosModel(); 
         $this->persistent = new Persistent();
-        $this->persistent->setTable('curriculo');
-        $this->persistent->setColumns('codigo', 'disciplina', 'componente_enade', 'componente_dcn', 'carga_horaria', 'curso');
+        $this->persistent->setTable('curso');
+        $this->persistent->setColumns('nome');
     }
     public function render() {
         $this->renderLayout();
@@ -30,31 +30,28 @@ class CursosController extends RenderLayout{
 
     public function processAjax(){
         $this->dados = [
-            'nome' => $_POST['cursoNome'],
-            'area' => $_POST['cursoArea']
+            'nome' => $_POST['cursoNome']          
         ];
         $this->persistent->setFields($this->dados);
         $this->persistent->saveData();
     }
 
-    public function saveSpreadsheet() {
-
-        $rows = $_POST['data'];
+    public function saveDataBySpreadsheet($rows) {
                
+        $array = [];        
         foreach ($rows as $key => $row){
-            $disciplina = $this->model->buscarPorCodigoEDisciplina($row['Codigo'], $row['Curso']);            
-            if(!empty($disciplina)){
-               continue;
+            if(!in_array($row['Curso'], $array)) {
+            $array[] = $row['Curso'];
+                $disciplina = $this->model->buscaPorNome($row['Curso']);
+                if(empty($disciplina)){
+                    $this->dados = [ 
+                        'nome' => $row['Curso'],
+                    ];
+                    $this->persistent->setFields($this->dados);
+                    $this->persistent->saveData();
+                }
             }
-            $this->dados = [                    
-                'codigo' => $row['Codigo'],
-                'disciplina' => $row['Disciplina'],
-                'carga_horaria' => (int)$row['CH'],
-                'curso' => $row['Curso'],
-            ];
-            $this->persistent->setFields($this->dados);
-            $this->persistent->saveData();
-        } 
+        }
     }
 
     public function fetchById(){        
@@ -77,10 +74,40 @@ class CursosController extends RenderLayout{
         echo(json_encode($response[$page]));
     }
 
+    public function fetchList(){
+        $response = $this->model->listaCursos();
+        echo(json_encode($response));
+    }
+
     public function getCount(){   
         if(empty($listCurses)) {            
             $this->listCurses = $this->model->listaCursos();
         }
         echo count($this->listCurses);
+    }
+
+
+    //##############################
+    //#COLOCAR NO CONTROLLER DEVIDO#
+    //##############################
+    public function teste() {
+
+        $this->persistent->setTable('relatorio');
+        $this->persistent->setColumns('curso', 'ano', 'questao', 'enade');
+
+        $this->dados = [
+            'curso' => $_POST['curso'],
+            'ano' => $_POST['ano'],
+            'questao' => $_POST['questao'],
+            'enade' => $_POST['enade'],
+        ];
+
+        var_dump($this->dados);
+
+        $this->persistent->setFields($this->dados);
+        $this->persistent->saveData();
+
+
+
     }
 }

@@ -39,8 +39,8 @@ function processRespose(data) {
   res = JSON.parse(data);
   $.each(res, function(){    
     $("#lista tbody").append(
-        $('<tr>', {'nome':this.curso}).append(
-          $('<td>', {'class':'list_td', 'text':this.curso})
+        $('<tr>', {'nome':this.nome}).append(
+          $('<td>', {'class':'list_td', 'text':this.nome})
         )
       );
   });
@@ -135,8 +135,6 @@ $(document).ready(function() {
       createPaginationButtons(json);
     }
   })
-
-  
 });
 
 //chamar o controller para gravar os dados

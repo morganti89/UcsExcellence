@@ -14,6 +14,7 @@ class RouterRegister {
         $this->routes = [
             '' => 'dashboard',
             'dashboard' => 'dashboard',
+            'curriculo' => 'curriculo',
             'cursos' => 'cursos',
             'provas' => 'provas',
             'cadastros' => 'cadastros',

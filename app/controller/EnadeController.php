@@ -36,4 +36,10 @@ class EnadeController extends RenderLayout{
             $this->persistent->saveData();
         } 
     } 
+
+    public function fetchListByCurso(){
+        $curso = $_POST['curso'];
+        $response = $this->model->listaEnadeByCurso($curso);
+        echo(json_encode($response));
+    }
 }

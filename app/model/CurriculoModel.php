@@ -5,11 +5,11 @@ use PDO;
 
 use Source\classes\Persistent;
 
-class CursosModel extends Persistent{
+class CurriculoModel extends Persistent{
 
     public function listaCursos() {
         $conn = $this->conn->getConn();
-        $sql = "SELECT `nome` FROM curso ORDER BY nome";
+        $sql = "SELECT DISTINCT `curso` FROM curriculo ORDER BY curso";
         $statment = $conn->prepare($sql);
         $statment->execute();
         $result = $statment->fetchall(PDO::FETCH_ASSOC);
@@ -18,7 +18,16 @@ class CursosModel extends Persistent{
 
     public function buscaCursoPorId($id) {
         $conn = $this->conn->getConn();
-        $sql = "SELECT * FROM curso WHERE id={$id} ORDER BY nome ASC";
+        $sql = "SELECT * FROM curriculo WHERE id={$id} ORDER BY nome ASC";
+        $statment = $conn->prepare($sql);
+        $statment->execute();
+        $result = $statment->fetchall(PDO::FETCH_ASSOC);
+        return $result;
+    }
+ 
+    public function buscarPorCodigoEDisciplina($code, $curso){
+        $conn = $this->conn->getConn();
+        $sql = "SELECT * FROM curriculo WHERE codigo='{$code}' AND curso ='{$curso}'";
         $statment = $conn->prepare($sql);
         $statment->execute();
         $result = $statment->fetchall(PDO::FETCH_ASSOC);
@@ -27,7 +36,7 @@ class CursosModel extends Persistent{
 
     public function buscaPorNome($nome) {
         $conn = $this->conn->getConn();
-        $sql = "SELECT * FROM curso WHERE nome='{$nome}'";
+        $sql = "SELECT * FROM curriculo WHERE curso='{$nome}'";
         $statment = $conn->prepare($sql);
         $statment->execute();
         $result = $statment->fetchall(PDO::FETCH_ASSOC);
