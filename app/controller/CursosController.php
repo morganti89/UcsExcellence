@@ -28,10 +28,11 @@ class CursosController extends RenderLayout{
         $this->renderLayout();
     }
 
-    public function processAjax(){
+    public function gravaCurso(){
         $this->dados = [
             'nome' => $_POST['cursoNome']          
         ];
+        var_dump($this->dados);
         $this->persistent->setFields($this->dados);
         $this->persistent->saveData();
     }
@@ -84,6 +85,10 @@ class CursosController extends RenderLayout{
             $this->listCurses = $this->model->listaCursos();
         }
         echo count($this->listCurses);
+    }
+
+    public function deletaCurso(){
+        $this->model->excluiCurso($_POST['curso'] );
     }
 
 

@@ -38,9 +38,12 @@ body{
 }
 
 .main_content {
+    padding: 25px;
     grid-area: main_content;
     background-color: #9cc2f6;
     margin: 5px;
+    height: 680px;
+    width: 800px;
 }
 
 /*GRID GERAL*/
@@ -121,7 +124,23 @@ body{
   }
 
   .list_td {   
+    width: 80%;
     border-bottom: 2px solid #888;
+    display: flex;
+  }
+
+  .list_td span {
+    
+  }
+
+  .list_td a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  .list_td a:hover {
+    color: #FFF;
+    text-decoration: none;
   }
 
   .btn_normal {
@@ -129,6 +148,15 @@ body{
     border-color: #3498db;
     color: #fff;
     box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
+    -webkit-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
+  }
+
+  .btn_delete {
+    padding: 6px;  
+    border-color: #dd4025;
+    color: #fff;
+    box-shadow: 0 0 40px 40px #f63606 inset, 0 0 0 0 #f63606;
     -webkit-transition: all 150ms ease-in-out;
     transition: all 150ms ease-in-out;
   }
@@ -202,9 +230,9 @@ body{
     display: grid;    
   }
 
-  .cabecalho_curso select {
+  .inputs_select {
     font-size: 25px;
-    width: 30%;
+    width: 40%;
     margin: 4px 0px 4px; 
   }
 
@@ -214,4 +242,10 @@ body{
 
   #gravar_quest {
     margin-top: 8px;
+  }
+
+  .cabecalho_enade select {
+    font-size: 25px;
+    width: 30%;
+    margin-left: 4px; 
   }

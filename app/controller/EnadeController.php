@@ -23,8 +23,7 @@ class EnadeController extends RenderLayout{
 
     public function saveDataBySpreadsheet($rows){
 
-        foreach ($rows as $key => $row){     
-            
+        foreach ($rows as $key => $row){
             if(empty($row['componente_enade']))
                 continue;
             

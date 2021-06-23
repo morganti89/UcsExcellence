@@ -6,7 +6,7 @@
     createSelectProva();
     createSelectComponente();
     
-//    createIFrame(); 
+    createIFrame(); 
     $(".sel_curso").on('change', function(e){
       let curso = this.value;      
       $.ajax({
@@ -69,16 +69,16 @@
       $('<div>', {'class':'cabecalho_curso'}).append(
           $('<label>', {'text':'Questão'}),
           $('<div>', {'class':'cabecalho_curso'}).append(
-            $('<select>', {'class':'sel_questoes'}),
+            $('<select>', {'class':'sel_questoes inputs_select'}),
             
           ),
           $('<label>', {'text':'Componente ENADE'}),
           $('<div>', {'class':'cabecalho_curso'}).append(
-            $('<select>', {'class':'sel_enade'}),
+            $('<select>', {'class':'sel_enade inputs_select'}),
             
           ),
       ),
-      $('<button>', {onclick:'GravarProvaComponente()','id':"gravar_quest", 'class':"btn_normal", 'text':"GRAVAR"})
+      $('<button>', {onclick:'gravarProvaComponente()','id':"gravar_quest", 'class':"btn_normal", 'text':"GRAVAR"})
   );
   }
 
@@ -101,7 +101,7 @@
     }); 
   }
 
-  function GravarProvaComponente(){
+  function gravarProvaComponente(){
     let curso = $(".sel_curso").val();
     let ano = $(".sel_ano").val();
     let enade = $(".sel_enade").val();

@@ -1,7 +1,9 @@
 <div class="main_content">
-    <div>
-        <button id="btn_cursos_modal" class="btn_normal">NOVO CURSO</button>
+    <div class="cabecalho_enade">
+        <button id="btn_dcn_modal" class="btn_normal">NOVO COMPONENTE</button>
+        <select class="sel_curso"></select>
     </div>
+
     <table id="lista">
         <tbody></tbody>
     </table>
@@ -18,6 +20,14 @@
             <label>Nome do Curso</label>
             <input type="text" id="curso_nome">
         </div>
+        <div class="inputs">
+            <label>Área do Conhecimento</label>
+            <select id="curso_area">
+                <option value=""></option>
+                <option value="1">Ciências Exatas</option>
+            </select>
+            <button id="btn_cad_area">Cadastrar novo Área</button>
+        </div>
         <div class="inputs">            
             <input type="submit" id="gravar_curso">
         </div>        
@@ -26,9 +36,6 @@
 
 <div id="curso_modal" class="modal">
     <div class="modal_content">
-        <input id="text_curso" type="text">
         <span class="close">&times;</span>
-            <button id="btn_delete_curso" class="btn_delete">EXCLUIR</button>
-        </div>
     </div>
 </div>

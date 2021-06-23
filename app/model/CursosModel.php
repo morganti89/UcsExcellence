@@ -33,4 +33,13 @@ class CursosModel extends Persistent{
         $result = $statment->fetchall(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function excluiCurso($curso) {
+        $conn = $this->conn->getConn();        
+        $sql = "DELETE FROM curso WHERE nome = :curso";
+        var_dump($sql);
+        $statment = $conn->prepare($sql);
+        $statment->bindParam(':curso', $curso);
+        $statment->execute();
+    }
 }

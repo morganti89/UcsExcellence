@@ -3,6 +3,18 @@ var modal_save = document.getElementById("cursos_modal_save");
 var modal_curso = document.getElementById("curso_modal");
 var btn = document.getElementById("btn_cursos_modal");
 var span = document.getElementsByClassName("close");
+ 
+$(document).ready(function() {
+  createPaginationButtons();
+  makePagination(1); //primeira página
+  $('.pages').on('click', function(e){
+    var pageNumber = Number.parseInt(e.target.innerHTML);
+    if(pageNumber){
+      let page = e.target.innerHTML;
+      makePagination(page);
+    }
+  });
+});
 
 //////////////////////////////////////////////
 ////////FUNÇÕES DO AUXILIARES/////////////////
@@ -40,7 +52,9 @@ function processRespose(data) {
   $.each(res, function(){    
     $("#lista tbody").append(
         $('<tr>', {'nome':this.nome}).append(
-          $('<td>', {'class':'list_td', 'text':this.nome})
+          $('<td>', {'class':'list_td'}).append(
+            $('<a>', {'href':"#", 'text': this.nome})            
+          )
         )
       );
   });
@@ -49,64 +63,83 @@ function processRespose(data) {
 //construir o modal a partir da resposta
 function buildModal(data) {
   $(".curso_modal").append('<div>',{'class': 'modal_content'});
-  disciplinas = [
-    "Programação", "Bioética"
-  ];
-
-  componenteEnade = [
-    "Sociologia"
-  ];
-
-  componenteDcn = [
-    "Formatação Profissional: Materias"
-  ]
-  
+  $("#text_curso").val(data[0].nome);
   modal_curso.style.display = "block";
   $(".modal_content").append(
     $('<div>', {'class': 'div_content'}).append(
-      $('<h3> ', {'class': 'titulo_modal','text': data[0].nome}),
+      $('<h3> ', {'id':'curso_titulo', 'class': 'titulo_modal','text': data[0].nome}),
       $('<div>', {'class': 'div_modal'}).append(
         $('<label>', {'text':'Disciplina'}),
-        $('<select>', {'class':'sel_dis'}),
+        $('<select>', {'class':'sel_dis inputs_select'}),
         $('<label>', {'text':'Componente ENADE'}),
-        $('<select>', {'class':'sel_comp_enade'}),
+        $('<select>', {'class':'sel_enade inputs_select'}),
         $('<label>', {'text':'Componente DCN'}),
-        $('<select>', {'class':'sel_comp_dcn'}),
+        $('<select>', {'class':'sel_dcn inputs_select'})        
       )
-    )
+    )    
   );
 
-  $.each(disciplinas, function(index, value){
-    console.log(value);
-    $('.sel_dis').append(
-      $('<option>', {'value': value, 'text': value},'</option>')
-    );
+  $.ajax({
+    url: "enade/fetchListByCurso",
+    method: "POST",
+    data: {'curso': data[0].nome},
+    datatype: "json",
+    success: function(json) {
+      updateSelectEnade(json);
+    }
   });
 
-  $.each(componenteEnade, function(index, value){
-    console.log(value);
-    $('.sel_comp_enade').append(
-      $('<option>', {'value': value, 'text': value},'</option>')
-    );
+  $.ajax({
+    url: "dcn/fetchListByCurso",
+    method: "POST",
+    data: {'curso': data[0].nome},
+    datatype: "json",
+    success: function(json) {
+      updateSelectDcn(json);
+    }
   });
 
-  $.each(componenteDcn, function(index, value){
-    console.log(value);
-    $('.sel_comp_dcn').append(
-      $('<option>', {'value': value, 'text': value},'</option>')
-    );
-  });
 }
 
-function createPaginationButtons(json){
-  let totalPages = Math.ceil(json/20);
-  for (let index = 1; index <= totalPages; index++) {
-    $(".pages").append(
-      $('<div>', {'class':'btn_page page_div'}).append(
-        $('<p>', {'text': index}),
-      )
-    )
-  }
+function updateSelectEnade(json) {
+  res = JSON.parse(json);
+  $.each(res, function(){   
+    $('.sel_enade').append(
+      $('<option>', {'value': this.conteudo, 'text': this.conteudo},'</option>')
+    );
+  }); 
+}
+
+function updateSelectDcn(json) {
+  res = JSON.parse(json);
+  console.log(res);
+  $.each(res, function(){   
+    $('.sel_dcn').append(
+      $('<option>', {'value': this.conteudo, 'text': this.conteudo},'</option>')
+    );
+  }); 
+}
+
+
+function createPaginationButtons(){
+
+  $.ajax({
+    url: "cursos/getCount",
+    datatype: "json",
+    success: function(json) {
+      let totalPages = Math.ceil(json/20);
+        for (let index = 1; index <= totalPages; index++) {
+          $(".pages").append(
+            $('<div>', {'class':'btn_page page_div'}).append(
+              $('<a>', {'href':"#", 'text': index})
+            )
+          )
+        }
+    }
+  });
+
+
+  
 }
 
 function makePagination(page) {
@@ -122,30 +155,29 @@ function makePagination(page) {
   });
 }
 
+const deleteButton = () => {
+  let curso;
+  const setCurso = (data) => {
+    this.curso = data
+  }
+
+  const getCurso = () => {
+    return this.curso;
+  }
+};
+
 //////////////////////////////////////////
 ////////FUNÇÕES DO JQUERY/////////////////
 //////////////////////////////////////////
-//busca lista de cursos
-$(document).ready(function() {
-  makePagination(1); //primeira página
-  $.ajax({
-    url: "cursos/getCount",
-    datatype: "json",
-    success: function(json) {
-      createPaginationButtons(json);
-    }
-  })
-});
 
 //chamar o controller para gravar os dados
 $("#gravar_curso").on("click",function(){
-  var curso_nome = $("#curso_nome").val();    
-  var curso_area = $("#curso_area").val();
+  var curso_nome = $("#curso_nome").val();
   $.ajax({
-      url: "cursos/processAjax",
+      url: "cursos/gravaCurso",
       method: "POST",
       context: document.body,
-      data: {'cursoNome': curso_nome, 'cursoArea': curso_area},
+      data: {'cursoNome': curso_nome},
       success : function () {
         alert("Nova inserção realizada com sucesso!");
         location.reload();
@@ -153,8 +185,22 @@ $("#gravar_curso").on("click",function(){
   });
 });
 
-$(document).on('click', '#lista tbody tr', function(e){
-  var nome = $(this).attr('nome');
+$("#btn_delete_curso").on('click', function(){
+  let curso = $('#text_curso').val();
+  $.ajax({
+    url: "cursos/deletaCurso",
+    method: "POST",
+    context: document.body,
+    data: {'curso': curso},
+    success : function (e) {
+      alert("Exclusão realizada com sucesso!");
+      location.reload();
+    }
+  });
+});
+
+$(document).on('click', '.list_td a', function(e){
+  var nome = e.target.innerHTML;
   $.ajax({
       url: "cursos/fetchByName",
       method: "POST",
@@ -166,45 +212,3 @@ $(document).on('click', '#lista tbody tr', function(e){
   });
 });
 
-// $(".browser_file").on('click', function(){
-//   var file = $(this).parent().find(".file_selector");  
-//   file.trigger("click");
-// });
-
-// $('input[type="file"]').change(function(event){
-//   var fileUpload = document.getElementById("fileUpload");
-//   var reader = new FileReader();
-//   var excelRows;
-//   reader.onload = function(event) {    
-//     var workbook = XLSX.read(event.target.result, {
-//       type: 'binary'
-//     });
-//     //Fetch the name of First Sheet.
-//     var firstSheet = workbook.SheetNames[0];    
-//     //Read all rows from First Sheet into an JSON array.
-//     excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
-
-//     var chunk = chunkRows(excelRows, 500);
-//     for (let index = 0; index < chunk.length; index++) {
-//       var element = chunk[index];
-//         $.ajax({
-//         url: "cursos/saveSpreadsheet",
-//         method: "POST",
-//         context: document.body,
-//         data: {'data': element}       
-//       });
-//     }   
-//   };
-
-//   reader.readAsBinaryString(fileUpload.files[0]);
-  
-// });
-
-
-$('.pages').on('click', function(e){
-  var pageNumber = Number.parseInt(e.target.innerHTML);
-  if(pageNumber){
-    let page = e.target.innerHTML;
-    makePagination(page);
-  }
-});
