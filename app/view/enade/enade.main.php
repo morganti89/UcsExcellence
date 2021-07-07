@@ -1,6 +1,10 @@
 <div class="main_content">
     <div class="cabecalho_enade">
         <button id="btn_enade_modal" class="btn_normal">NOVO COMPONENTE</button>
+        <button id="file_enade" class="btn_normal browser_file">IMPORTAR PLANILHA</button>
+        <form>            
+                <input type="file" class="file_selector" id="fileUpload">
+            </form>
         <select class="sel_curso"></select>
     </div>
 

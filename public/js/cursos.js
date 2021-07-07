@@ -1,17 +1,29 @@
-
 var modal_save = document.getElementById("cursos_modal_save");
 var modal_curso = document.getElementById("curso_modal");
 var btn = document.getElementById("btn_cursos_modal");
 var span = document.getElementsByClassName("close");
  
 $(document).ready(function() {
-  createPaginationButtons();
-  makePagination(1); //primeira página
-  $('.pages').on('click', function(e){
-    var pageNumber = Number.parseInt(e.target.innerHTML);
-    if(pageNumber){
-      let page = e.target.innerHTML;
-      makePagination(page);
+  $.ajax({
+    url: "login/buscaSessao",
+    method: "GET",      
+    datatype: "json",
+    success: function(json) {      
+      res = JSON.parse(json);
+      console.log(res);
+      if(!res.login) {
+        window.location.assign('login');
+      } else {
+        createPaginationButtons();
+        makePagination(1); //primeira página
+        $('.pages').on('click', function(e){
+          var pageNumber = Number.parseInt(e.target.innerHTML);
+          if(pageNumber){
+            let page = e.target.innerHTML;
+            makePagination(page);
+          }
+        });
+      }
     }
   });
 });
@@ -112,7 +124,6 @@ function updateSelectEnade(json) {
 
 function updateSelectDcn(json) {
   res = JSON.parse(json);
-  console.log(res);
   $.each(res, function(){   
     $('.sel_dcn').append(
       $('<option>', {'value': this.conteudo, 'text': this.conteudo},'</option>')

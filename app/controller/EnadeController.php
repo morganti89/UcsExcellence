@@ -39,6 +39,12 @@ class EnadeController extends RenderLayout{
     public function fetchListByCurso(){
         $curso = $_POST['curso'];
         $response = $this->model->listaEnadeByCurso($curso);
-        echo(json_encode($response));
+        $data = [];        
+        foreach ($response as $key => $value) {            
+            if($value['conteudo'] != ' ') {               
+                $data[] = $value['conteudo'];
+            }
+        }
+        echo(json_encode($data));
     }
 }

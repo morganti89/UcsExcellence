@@ -1,6 +1,7 @@
 <div class="main_content">
     <div class="cabecalho_enade">
         <button id="btn_dcn_modal" class="btn_normal">NOVO COMPONENTE</button>
+        <button id="file_dcn" class="btn_normal browser_file">IMPORTAR PLANILHA</button>
         <select class="sel_curso"></select>
     </div>
 

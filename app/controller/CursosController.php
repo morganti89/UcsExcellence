@@ -5,6 +5,7 @@ namespace app\controller;
 use Source\classes\RenderLayout;
 use Source\classes\Persistent;
 use App\model\CursosModel;
+use Source\classes\Helpers;
 
 class CursosController extends RenderLayout{
 
@@ -24,6 +25,7 @@ class CursosController extends RenderLayout{
         $this->persistent->setTable('curso');
         $this->persistent->setColumns('nome');
     }
+
     public function render() {
         $this->renderLayout();
     }
@@ -32,7 +34,6 @@ class CursosController extends RenderLayout{
         $this->dados = [
             'nome' => $_POST['cursoNome']          
         ];
-        var_dump($this->dados);
         $this->persistent->setFields($this->dados);
         $this->persistent->saveData();
     }
@@ -91,6 +92,12 @@ class CursosController extends RenderLayout{
         $this->model->excluiCurso($_POST['curso'] );
     }
 
+    public function buscaSessao(){
+
+
+        var_dump(Helpers::buscaSessao());
+        //echo(json_encode(Helpers::buscaSessao()));
+    }
 
     //##############################
     //#COLOCAR NO CONTROLLER DEVIDO#

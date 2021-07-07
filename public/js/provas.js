@@ -1,46 +1,58 @@
-  var anos = ['2010','2011','2012','2013','2014','2015','2016','2017','2018', '2019','2020'];
-  var questoes = ['D1','D2','D3','D4','D5','D6','D7','D8','D9'];
-  
+  var cursoSelecionado = [];
+
   $(document).ready(function() {
 
     createSelectProva();
-    createSelectComponente();
+    createSelectComponente();    
+    createIFrame();
+    updateSelectQuestoes();
+
     
-    createIFrame(); 
+    $.ajax({
+      url: "login/buscaCursoSessao",
+      method: "GET",      
+      datatype: "json",
+      success: function(json) {
+        res = JSON.parse(json);
+        console.log(res);
+        if(res.tipo == "admin"){
+          $.ajax({
+            url: "cursos/fetchList",
+            datatype: "json",
+            success: function(jsonCurso) {
+              updateSelectProva(jsonCurso);              
+            }
+          });
+        } else {
+          $('.sel_curso').append(
+            $('<option>', {'value': res.curso, 'text': res.curso, 'selected':true},'</option>')            
+          );
+          cursoSelecionado = $(".sel_curso").val();
+          updateSelectAno(cursoSelecionado);
+          updateComponentes(cursoSelecionado);
+          console.log($(".sel_curso").val());
+          console.log($(".sel_ano").val());
+        }
+      }
+    });
+
     $(".sel_curso").on('change', function(e){
       let curso = this.value;      
-      $.ajax({
-        url: "enade/fetchListByCurso",
-        method: "POST",
-        data: {'curso': curso},
-        datatype: "json",
-        success: function(json) {
-          updateSelectComponente(json);
-        }
-      });
+      updateComponentes(curso);
     });
   });
 
-  $.ajax({
-    url: "cursos/fetchList",
-    datatype: "json",
-    success: function(json) {
-      updateSelectProva(json);
-    }
-  });
-
-  function createSelectProva() {
-    
+  function createSelectProva() {    
     $("#inputs_provas").append(
         $('<div>', {'class':'cabecalho_curso'}).append(
             $('<label>', {'text':'Curso'}),
             $('<div>', {'class':'cabecalho_curso'}).append(
-              $('<select>', {'class':'sel_curso'}),
+              $('<select>', {'class':'sel_curso inputs_select'}),
               
             ),
             $('<label>', {'text':'Ano'}),
             $('<div>', {'class':'cabecalho_curso'}).append(
-              $('<select>', {'class':'sel_ano'}),
+              $('<select>', {'class':'sel_ano inputs_select'}),
               
             ),
         ),
@@ -50,7 +62,8 @@
 
   function updateSelectProva(json) {
     res = JSON.parse(json);    
-
+    anos = ['2010','2011','2012','2013','2014'];
+    
     $.each(anos, function(){
       $('.sel_ano').append(
         $('<option>', {'value': this, 'text': this},'</option>')
@@ -77,28 +90,98 @@
             $('<select>', {'class':'sel_enade inputs_select'}),
             
           ),
+          $('<label>', {'text':'Componente DCN'}),
+          $('<div>', {'class':'cabecalho_curso'}).append(
+            $('<select>', {'class':'sel_dcn inputs_select'}),            
+          ),
       ),
       $('<button>', {onclick:'gravarProvaComponente()','id':"gravar_quest", 'class':"btn_normal", 'text':"GRAVAR"})
-  );
+    );
   }
 
-  function updateSelectComponente(json) {
+  function updateSelectQuestoes(){
+    for (let index = 1; index <= 35; index++) {
+      $('.sel_questoes').append(
+        $('<option>', {'value': 'q_'+index, 'text': 'Questão '+ index},'</option>')
+      );
+    }
+  }
+
+  function updateSelectComponenteEnade(json) {
     res = JSON.parse(json);
     console.log(res);
-    $('.sel_questoes').empty();
     $('.sel_enade').empty();
-
-    $.each(questoes, function(){
-      $('.sel_questoes').append(
+    $.each(res, function(){
+      $('.sel_enade').append(
         $('<option>', {'value': this, 'text': this},'</option>')
       );
-    });
+    }); 
+  }
+
+  function updateSelectComponenteDcn(json) {
+    res = JSON.parse(json);
+    $('.sel_dcn').empty();
 
     $.each(res, function(){   
-      $('.sel_enade').append(
+      $('.sel_dcn').append(
         $('<option>', {'value': this.conteudo, 'text': this.conteudo},'</option>')
       );
     }); 
+  }
+
+  function updateSelectAno(curso) {
+
+    normalizedCurso = normalizeChar(curso);
+    
+    $.ajax({
+      url: "provas/buscarAnoProva",
+      method: "POST",
+      data: {
+        'curso': normalizedCurso        
+      },
+      datatype: "json",
+      success: function(json) {       
+        if(json){
+          let res = JSON.parse(json);
+          let cont = 0;
+          $('.sel_ano').empty();          
+          $.each(res, function(){
+            if(cont == 0) {
+              $('.sel_ano').append(
+                $('<option>', {'value': this['ano'], 'text': this['ano'], 'selected':true},'</option>')
+              );             
+            } else {
+              $('.sel_ano').append(
+                $('<option>', {'value': this['ano'], 'text': this['ano']},'</option>')
+              );
+            }
+            cont++;        
+          });
+        }
+      }
+    });
+  }
+
+  function updateComponentes(curso){
+    $.ajax({
+      url: "enade/fetchListByCurso",
+      method: "POST",
+      data: {'curso': curso},
+      datatype: "json",
+      success: function(json) {
+        updateSelectComponenteEnade(json);
+      }
+    });
+
+    $.ajax({
+      url: "dcn/fetchListByCurso",
+      method: "POST",
+      data: {'curso': curso},
+      datatype: "json",
+      success: function(json) {
+        updateSelectComponenteDcn(json);
+      }
+    });
   }
 
   function gravarProvaComponente(){
@@ -138,17 +221,33 @@
   }
 
   function updateIframe(ano, curso) {
-
     let normalizedCurso = normalizeChar(curso);
+    $.ajax({
+      url: "provas/buscarProva",
+      method: "POST",
+      data: {
+        'curso': normalizedCurso,
+        'ano': ano,
+      },
+      datatype: "json",
+      success: function(json) {       
+        if(json){
+          let data = JSON.parse(json);
+          $('#box_prova').remove();
+          $(".main_content").append(
+            $('<div>', {'id':'box_prova', style: 'height: 800px'}).append(             
+             $('<iframe>', {'src':data, style:'height: 100%; width:100%'})
+            )
+          );
+        }
+      }
+    });
 
-    console.log('https://download.inep.gov.br/educacao_superior/enade/provas/'+ano+'/'+normalizedCurso+'.pdf');
 
-    $('#box_prova').remove();
-    $(".main_content").append(
-      $('<div>', {'id':'box_prova', style: 'height: 800px'}).append(            
-        $('<iframe>', {'src':'https://download.inep.gov.br/educacao_superior/enade/provas/'+ano+'/'+normalizedCurso+'.pdf', style:'height: 100%; width:100%'})
-      )
-    );
+
+
+    
+    
   }
 
   function normalizeChar(curso) {

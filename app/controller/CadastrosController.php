@@ -6,6 +6,7 @@ use Source\classes\RenderLayout;
 use App\controller\DcnController;
 use App\controller\EnadeController;
 use App\controller\CurriculoController;
+use App\controller\ProvasController;
 
 class CadastrosController extends RenderLayout{
 
@@ -26,7 +27,8 @@ class CadastrosController extends RenderLayout{
             case 'file_dcn':
                 $obj = new DcnController();
                 break;
-            case 'file_provas':               
+            case 'file_provas':
+                $obj = new ProvasController();               
                 break;
             case 'file_curso':
                 $obj = new CurriculoController();

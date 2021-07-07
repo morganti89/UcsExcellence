@@ -18,7 +18,7 @@
                     <li><i class="fa fa-dashboard" aria-hidden="true"></i><a href="dashboard">Dasboard</a></li>
                     <li><a href="cursos">Cursos</a></li>
                     <li><a href="provas">Provas</a></li>
-                    <li><a href="cadastros">Cadastros</a></li>
+                    <!-- <li><a href="cadastros">Cadastros</a></li> -->
                     <li><a href="enade">Enade</a></li>
                     <li><a href="dcn">DCN</a></li>
                 </ul>

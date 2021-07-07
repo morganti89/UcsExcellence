@@ -42,7 +42,7 @@ body{
     grid-area: main_content;
     background-color: #9cc2f6;
     margin: 5px;
-    height: 680px;
+    height: auto;
     width: 800px;
 }
 
@@ -79,6 +79,14 @@ body{
     padding: 20px;
     border: 1px solid #888;    
     width: 80%; /* Could be more or less, depending on screen size */
+  }
+
+  .modal_content_login {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;    
+    width: 400px; /* Could be more or less, depending on screen size */
   }
   
   /* The Close Button */
@@ -231,8 +239,8 @@ body{
   }
 
   .inputs_select {
-    font-size: 25px;
-    width: 40%;
+    font-size: 18px;
+    width: 80%;
     margin: 4px 0px 4px; 
   }
 
@@ -248,4 +256,16 @@ body{
     font-size: 25px;
     width: 30%;
     margin-left: 4px; 
+  }
+
+  .div_login_content {
+    display: inline-grid;
+  }
+
+  .inputs_login {
+    font-size: 25px;
+  }
+
+  #login_submit {
+    margin-top: 8px;
   }

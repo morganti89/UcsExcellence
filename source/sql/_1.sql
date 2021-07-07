@@ -3,3 +3,5 @@ CREATE TABLE `componente_dcn` ( `id` int PRIMARY KEY AUTO_INCREMENT, `conteudo` 
 CREATE TABLE `componente_enade` ( `id` int PRIMARY KEY AUTO_INCREMENT, `conteudo` varchar(150), `curso` varchar(100) )
 CREATE TABLE `curso` ( `id` int PRIMARY KEY AUTO_INCREMENT, `nome` varchar(150))
 CREATE TABLE `relatorio` ( `id` int PRIMARY KEY AUTO_INCREMENT, `curso` varchar(100), `ano` varchar(100), `questao` varchar(100), `enade` varchar(100))
+CREATE TABLE `provas` ( `id` int PRIMARY KEY AUTO_INCREMENT, `curso` varchar(100), `ano` varchar(10), `link` varchar(255))
+CREATE TABLE `usuario` ( `id` int PRIMARY KEY AUTO_INCREMENT, `nome` varchar(100), `email` varchar(255), `senha` varchar(255), `tipo` varchar(10), `curso` text)

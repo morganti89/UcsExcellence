@@ -44,12 +44,11 @@ function updateSelectProva(json) {
 
 function processRespose(data) {
     res = JSON.parse(data);
-    console.log(res);
     $.each(res, function(){    
       $("#lista tbody").append(
-          $('<tr>', {'nome':this.conteudo}).append(
+          $('<tr>', {'nome':this}).append(
             $('<td>', {'class':'list_td'}).append(
-              $('<a>', {'href':"#", 'text': this.conteudo}) 
+              $('<a>', {'href':"#", 'text': this}) 
             )
           )
         );
@@ -59,3 +58,17 @@ function processRespose(data) {
 function limpaLista() {
     $('#lista tbody tr').remove();
 }
+
+$(document).on('click', '.list_td a', function(e){
+  var nome = e.target.innerHTML;
+  $.ajax({
+      url: "cursos/fetchByName",
+      method: "POST",
+      context: document.body,
+      data: {'nome': nome},
+      success : function (e) {
+        buildModal(JSON.parse(e));
+      }
+  });
+});
+

@@ -13,6 +13,7 @@ class RouterRegister {
     private function addRoutes(){
         $this->routes = [
             '' => 'dashboard',
+            'login' => 'login',
             'dashboard' => 'dashboard',
             'curriculo' => 'curriculo',
             'cursos' => 'cursos',

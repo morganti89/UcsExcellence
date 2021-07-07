@@ -37,7 +37,6 @@ class CursosModel extends Persistent{
     public function excluiCurso($curso) {
         $conn = $this->conn->getConn();        
         $sql = "DELETE FROM curso WHERE nome = :curso";
-        var_dump($sql);
         $statment = $conn->prepare($sql);
         $statment->bindParam(':curso', $curso);
         $statment->execute();
